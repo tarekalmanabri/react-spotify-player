@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import * as $ from 'jquery'
 import { authEndpoint, clientId, redirectUri, scopes } from './config'
 import hash from './hash'
 import Player from './Player'
+import TopTracks from './TopTracks'
+
 import logo from './logo.svg'
 import './App.css'
 
@@ -97,11 +98,14 @@ class App extends Component {
             </a>
           )}
           {this.state.token && !this.state.no_data && (
-            <Player
-              item={this.state.item}
-              is_playing={this.state.is_playing}
-              progress_ms={this.state.progress_ms}
-            />
+            <>
+              <Player
+                item={this.state.item}
+                is_playing={this.state.is_playing}
+                progress_ms={this.state.progress_ms}
+              />
+              <TopTracks item={this.state.item} token={this.state.token} />
+            </>
           )}
           {this.state.no_data && (
             <p>
