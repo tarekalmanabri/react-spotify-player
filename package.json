@@ -6,6 +6,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "config": "^3.3.6",
     "jquery": "^3.4.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
