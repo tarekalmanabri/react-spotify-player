@@ -1,45 +1,34 @@
 import React, { useState, useEffect } from 'react'
-import './Player.css'
+import { getTopTracks } from './getTopTracks'
 
-const Player = (props) => {
+const TopTracks = ({ item, token }) => {
   const [topTracks, setTopTracks] = useState()
-
-  const backgroundStyles = {
-    backgroundImage: `url(${props.item.album.images[0].url})`,
-  }
-
-  const progressBarStyles = {
-    width: (props.progress_ms * 100) / props.item.duration_ms + '%',
-  }
-
-  function getTopTracks() {
-    // Make a call using the token
-    fetch(
-      `https://api.spotify.com/v1/artists/${props.item.artists[0].id}/top-tracks?market=NL`,
-      {
-        headers: {
-          Authorization: 'Bearer ' + props.token,
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data)
-        setTopTracks(data.tracks)
-      })
-  }
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState()
 
   useEffect(() => {
-    getTopTracks()
-  }, [props.item])
+    setLoading(true)
+    getTopTracks(item.artists[0].id, token)
+      .then((data) => {
+        setTopTracks(data)
+        setLoading(false)
+      })
+      .catch((error) => {
+        setError(error)
+        setLoading(false)
+      })
+  }, [item])
 
   return (
     <>
-      <div className='App'>
+      <div className='top-track-list'>
+        <h2>Top Track for {item.artists[0].name}</h2>
+        {loading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
         <ul>{topTracks && topTracks.map((track) => <li>{track.name}</li>)}</ul>
       </div>
     </>
   )
 }
 
-export default Player
+export default TopTracks
