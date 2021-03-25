@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import './Player.css'
 
-const Player = (props) => {
-  const [topTracks, setTopTracks] = useState()
-
-  const backgroundStyles = {
-    backgroundImage: `url(${props.item.album.images[0].url})`,
-  }
-
-  const progressBarStyles = {
-    width: (props.progress_ms * 100) / props.item.duration_ms + '%',
-  }
+const TopTracks = (props) => {
+  const [topTracks, setTopTracks] = useState('')
 
   function getTopTracks() {
     // Make a call using the token
@@ -24,7 +15,6 @@ const Player = (props) => {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
         setTopTracks(data.tracks)
       })
   }
@@ -35,11 +25,12 @@ const Player = (props) => {
 
   return (
     <>
-      <div className='App'>
+      <div className='top-track-list'>
+        <h2>Top Track for {props.item.artists[0].name}</h2>
         <ul>{topTracks && topTracks.map((track) => <li>{track.name}</li>)}</ul>
       </div>
     </>
   )
 }
 
-export default Player
+export default TopTracks
