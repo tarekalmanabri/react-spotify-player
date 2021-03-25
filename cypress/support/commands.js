@@ -1,0 +1,11 @@
+Cypress.Commands.add('login', (email, password) => {
+    cy.visit('https://accounts.spotify.com/en/authorize?client_id=1d26a7201e79440fb8b9546b714caa24&redirect_uri=http:%2F%2Flocalhost:3000%2Fredirect&scope=user-top-read%20user-read-currently-playing%20user-read-playback-state&response_type=token&show_dialog=true')
+    cy.get('#login-username')
+    .type(email)
+    cy.get('#login-password')
+    .type(password)
+    cy.get('#login-button')
+    .click()
+    cy.get('#auth-accept')
+    .click()
+})
